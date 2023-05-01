@@ -1,12 +1,14 @@
 import type {
-  Schema,
-  SchemaIs,
-  Hint,
-} from './common';
+  BlockStateSpec,
+  BlockConfigSpec,
+  BlockParamsSpec,
+  BlockEnumerateCallbackAny,
+} from './block';
 
-export type StreamProcessContext<S, P> = {
+export type StreamProcessContext<S, C, P> = {
   now: Date;
-  state?: S;
+  state: S;
+  config: C;
   params: P;
 };
 
@@ -15,20 +17,17 @@ export type StreamProcessResult<S> = {
   output: object[];
 };
 
-export type StreamHintsCallback<P> = (param: string, partial: Partial<P>) => Promise<Hint[]>;
-export type StreamOutputCallback<P> = (params: P) => Promise<Schema>;
-export type StreamProcessCallback<S, P> = (
-  ctx: StreamProcessContext<S, P>,
+export type StreamProcessCallback<S, C, P> = (
+  ctx: StreamProcessContext<S, C, P>,
 ) => Promise<StreamProcessResult<S>>;
 
-export type StreamParamsSpec = {
-  is: SchemaIs<object>;
-  mandatory: string[];
-  hints: StreamHintsCallback<object> | null;
-  output: StreamOutputCallback<object> | null;
-};
+export type StreamProcessCallbackAny =
+  StreamProcessCallback<object | void, object | void, object | void>;
 
 export type StreamSpec = {
-  params: StreamParamsSpec | null;
-  process: StreamProcessCallback<object, object | void>;
+  state: BlockStateSpec | null;
+  config: BlockConfigSpec | null;
+  params: BlockParamsSpec | null;
+  enumerate: BlockEnumerateCallbackAny | null;
+  process: StreamProcessCallbackAny;
 };

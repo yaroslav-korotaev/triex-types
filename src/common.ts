@@ -5,11 +5,21 @@ export type SchemaIs<T> = Is<T> & { schema: Schema };
 
 export type Labels = Record<string, string>;
 
-export type Hint = {
-  value: any;
+export type Variant<P> = {
+  params: P;
+  schema?: Schema;
+  labels?: Labels;
   meta?: {
     title: string;
     description?: string;
-  },
-  labels?: Labels;
+  };
+};
+
+export type RuntimeObjectId<T> = {
+  type: T;
+  id: string;
+};
+
+export type RuntimeObject<T, S> = RuntimeObjectId<T> & {
+  spec: S;
 };
