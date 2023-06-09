@@ -4,6 +4,7 @@ export * from './node';
 export * from './link';
 export * from './pipeline';
 export * from './objects';
+export * from './func';
 export * from './stream';
 export * from './storage';
 export * from './remote';
