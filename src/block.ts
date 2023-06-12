@@ -4,18 +4,6 @@ import type {
   Variant,
 } from './common';
 
-export type BlockParamsSchemaCallback<C> = (config: C) => Promise<Schema | null>;
-
-export type BlockParamsValidateCallback<C, P> = (
-  config: C,
-  params: P,
-) => Promise<void>;
-
-export type BlockDynamicParamsSetup<C, P> = {
-  schema: BlockParamsSchemaCallback<C>;
-  validate: BlockParamsValidateCallback<C, P>;
-};
-
 export type BlockScheduler = {
   immediate(): void;
   timeout(ms: number): void;
@@ -80,17 +68,9 @@ export type BlockConfigOneSpec = {
 
 export type BlockConfigSpec = BlockConfigOneSpec;
 
-export type BlockParamsStaticSpec = {
-  type: 'static';
+export type BlockParamsSpec = {
   is: SchemaIs<object> | null;
 };
-
-export type BlockParamsDynamicSpec = {
-  type: 'dynamic';
-  setup: BlockDynamicParamsSetup<object | void, object | void>;
-};
-
-export type BlockParamsSpec = BlockParamsStaticSpec | BlockParamsDynamicSpec;
 
 export type BlockSpec = {
   input: BlockInputSpec | null;
