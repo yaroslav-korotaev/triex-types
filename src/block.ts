@@ -1,6 +1,6 @@
 import type {
-  Schema,
   SchemaIs,
+  ShapeIs,
   Variant,
 } from './common';
 
@@ -29,6 +29,7 @@ export type BlockContext<I, O, S, C, P> = {
   output: BlockOutput<O>;
   state: BlockState<S>;
   config: C;
+  values: object;
   params: P;
 };
 
@@ -48,14 +49,24 @@ export type BlockInputOneSpec = {
   is: SchemaIs<object> | null;
 };
 
-export type BlockInputSpec = BlockInputOneSpec;
+export type BlockInputManySpec = {
+  type: 'many';
+  is: ShapeIs<object> | null;
+};
+
+export type BlockInputSpec = BlockInputOneSpec | BlockInputManySpec;
 
 export type BlockOutputOneSpec = {
   type: 'one';
   is: SchemaIs<object> | null;
 };
 
-export type BlockOutputSpec = BlockOutputOneSpec;
+export type BlockOutputManySpec = {
+  type: 'many';
+  is: ShapeIs<object> | null;
+};
+
+export type BlockOutputSpec = BlockOutputOneSpec | BlockOutputManySpec;
 
 export type BlockStateSpec = {
   is: SchemaIs<object> | null;

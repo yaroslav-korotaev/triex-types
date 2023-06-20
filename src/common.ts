@@ -2,6 +2,7 @@ export type Schema = object;
 
 export type Is<T> = (value: any) => value is T;
 export type SchemaIs<T> = Is<T> & { schema: Schema };
+export type ShapeIs<T> = { [K in keyof T]: SchemaIs<T[K]> | null };
 
 export type Labels = Record<string, string>;
 
