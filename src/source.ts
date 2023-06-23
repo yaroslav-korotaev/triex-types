@@ -1,5 +1,11 @@
 import type { OutletRef } from './output';
 
+export type ResourceSpecSource = {
+  name: string;
+  blueprint: string;
+  commands: object[];
+};
+
 export type PipelineNodeInletSpecNormal = {
   name: string;
   from: OutletRef[];
@@ -33,7 +39,7 @@ export type PipelineNodeSpecSource = {
   block: string;
   input?: PipelineNodeInputSpecSource;
   output?: PipelineNodeOutputSpecSource;
-  config?: string;
+  resource?: string;
   values?: object;
   params?: object;
 };
@@ -43,7 +49,7 @@ export type PipelineNodeSpecNormal = {
   block: string;
   input: PipelineNodeInputSpecNormal;
   output: PipelineNodeOutputSpecNormal;
-  config: string | null;
+  resource: string | null;
   values: object | null;
   params: object | null;
 };

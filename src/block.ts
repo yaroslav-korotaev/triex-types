@@ -3,6 +3,7 @@ import type {
   ShapeIs,
   Variant,
 } from './common';
+import type { BlueprintRef } from './blueprint';
 
 export type BlockScheduler = {
   immediate(): void;
@@ -23,22 +24,22 @@ export type BlockState<S> = {
   save(next: S): void;
 };
 
-export type BlockContext<I, O, S, C, P> = {
+export type BlockContext<I, O, R, S, P> = {
   scheduler: BlockScheduler;
   input: BlockInput<I>;
   output: BlockOutput<O>;
+  resource: R;
   state: BlockState<S>;
-  config: C;
   values: object;
   params: P;
 };
 
-export type BlockEnumerateCallback<C, P> = (config: C) => Promise<Variant<P>[]>;
+export type BlockEnumerateCallback<R, P> = (resource: R) => Promise<Variant<P>[]>;
 
 export type BlockEnumerateCallbackAny = BlockEnumerateCallback<object | void, object>;
 
-export type BlockMethodCallback<I, O, S, C, P> = (
-  ctx: BlockContext<I, O, S, C, P>,
+export type BlockMethodCallback<I, O, R, S, P> = (
+  ctx: BlockContext<I, O, R, S, P>,
 ) => Promise<void>;
 
 export type BlockMethodCallbackAny =
@@ -68,16 +69,16 @@ export type BlockOutputManySpec = {
 
 export type BlockOutputSpec = BlockOutputOneSpec | BlockOutputManySpec;
 
+export type BlockResourceOneSpec = {
+  type: 'one';
+  ref: BlueprintRef<object>;
+};
+
+export type BlockResourceSpec = BlockResourceOneSpec;
+
 export type BlockStateSpec = {
   is: SchemaIs<object> | null;
 };
-
-export type BlockConfigOneSpec = {
-  type: 'one';
-  configurator: string;
-};
-
-export type BlockConfigSpec = BlockConfigOneSpec;
 
 export type BlockParamsSpec = {
   is: SchemaIs<object> | null;
@@ -86,8 +87,8 @@ export type BlockParamsSpec = {
 export type BlockSpec = {
   input: BlockInputSpec | null;
   output: BlockOutputSpec | null;
+  resource: BlockResourceSpec | null;
   state: BlockStateSpec | null;
-  config: BlockConfigSpec | null;
   params: BlockParamsSpec | null;
   enumerate: BlockEnumerateCallbackAny | null;
   init: BlockMethodCallbackAny | null;

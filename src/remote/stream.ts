@@ -2,9 +2,10 @@ import type {
   Schema,
   Variant,
 } from '../common';
+import type { RemoteBlockResourceSpec } from './block';
 
 export type RemoteStreamParamsSchemaRequest = {
-  config?: object | void;
+  resource?: object | void;
 };
 
 export type RemoteStreamParamsSchemaResponse = {
@@ -12,7 +13,7 @@ export type RemoteStreamParamsSchemaResponse = {
 };
 
 export type RemoteStreamEnumerateRequest = {
-  config?: object | void;
+  resource?: object | void;
 };
 
 export type RemoteStreamEnumerateResponse = {
@@ -21,8 +22,8 @@ export type RemoteStreamEnumerateResponse = {
 
 export type RemoteStreamProcessRequest = {
   now: string;
+  resource?: object | void;
   state?: object | void;
-  config?: object | void;
   params?: object | void;
 };
 
@@ -31,8 +32,14 @@ export type RemoteStreamProcessResponse = {
   output: object[];
 };
 
-export type RemoteStream = {
+export type RemoteStreamSpec = {
   name: string;
+  resource: RemoteBlockResourceSpec | null;
+  state: { is: Schema | null } | null;
+  params: { is: Schema | null } | null;
+};
+
+export type RemoteStream = {
   paramsSchema(request: RemoteStreamParamsSchemaRequest): Promise<RemoteStreamParamsSchemaResponse>;
   enumerate(request: RemoteStreamEnumerateRequest): Promise<RemoteStreamEnumerateResponse>;
   process(request: RemoteStreamProcessRequest): Promise<RemoteStreamProcessResponse>;
