@@ -8,7 +8,7 @@ export type FuncResultSpec = {
   is: SchemaIs<object> | null;
 };
 
-export type FuncExecCallback<A, R> = (args: A) => Promise<R>;
+export type FuncExecCallback<A, R> = (args: A) => Promise<R | R[]>;
 
 export type FuncExecCallbackAny = FuncExecCallback<object | void, object | void>;
 

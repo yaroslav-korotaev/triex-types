@@ -15,8 +15,8 @@ export type BlockInput<T> = {
 };
 
 export type BlockOutput<T> = {
-  write(obj: T): void;
-  write<K extends keyof T>(outlet: K, obj: T[K]): void;
+  write(obj: T | T[]): void;
+  write<K extends keyof T>(outlet: K, obj: T[K] | T[K][]): void;
 };
 
 export type BlockState<S> = {

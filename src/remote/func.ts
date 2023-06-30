@@ -5,7 +5,7 @@ export type RemoteFuncExecRequest = {
 };
 
 export type RemoteFuncExecResponse = {
-  result?: object | void;
+  result?: object | object[] | void;
 };
 
 export type RemoteFuncSpec = {
