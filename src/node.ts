@@ -9,6 +9,7 @@ export type NodeSpec = {
   output: OutputSpec;
   resource: ResourceRef | null;
   values: object | null;
+  options: object | null;
   params: object | null;
 };
 

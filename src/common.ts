@@ -24,3 +24,10 @@ export type RuntimeObjectId<T> = {
 export type RuntimeObject<T, S> = RuntimeObjectId<T> & {
   spec: S;
 };
+
+export type Sample = {
+  node: string;
+  objects: object[];
+};
+
+export type Samples = Sample[];

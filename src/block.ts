@@ -5,45 +5,67 @@ import type {
 } from './common';
 import type { BlueprintRef } from './blueprint';
 
-export type BlockScheduler = {
-  immediate(): void;
-  timeout(ms: number): void;
+export type BlockContextBuffer<T> = {
+  push(objects: T[]): void;
 };
 
-export type BlockInput<T> = {
-  read(): T | undefined;
+export type BlockContextState<T> = {
+  get(): T | undefined;
+  set(value: T): void;
 };
 
-export type BlockOutput<T> = {
-  write(obj: T | T[]): void;
-  write<K extends keyof T>(outlet: K, obj: T[K] | T[K][]): void;
+export type BlockContextTimer = {
+  at(when: Date): void;
 };
 
-export type BlockState<S> = {
-  get(): S | undefined;
-  save(next: S): void;
-};
-
-export type BlockContext<I, O, R, S, P> = {
-  scheduler: BlockScheduler;
-  input: BlockInput<I>;
-  output: BlockOutput<O>;
+export type BlockPullContext<I, R, S, N> = {
+  signal: AbortSignal;
+  timer: BlockContextTimer;
+  queue: BlockContextBuffer<I>;
   resource: R;
-  state: BlockState<S>;
-  values: object;
+  state: BlockContextState<S>;
+  options: N;
+};
+
+export type BlockPullContextAny =
+  BlockPullContext<object, object | void, object | void, object | void>;
+
+export type BlockProcessContext<I, O, R, S, P> = {
+  signal: AbortSignal;
+  input: I;
+  output: BlockContextBuffer<O>;
+  resource: R;
+  state: BlockContextState<S>;
   params: P;
 };
 
-export type BlockEnumerateCallback<R, P> = (resource: R) => Promise<Variant<P>[]>;
+export type BlockProcessContextAny =
+  BlockProcessContext<object, object | void, object | void, object | void, object | void>;
 
-export type BlockEnumerateCallbackAny = BlockEnumerateCallback<object | void, object>;
+export type BlockEnumerateCallback<R, P> = (
+  resource: R,
+) => Promise<Variant<P>[]>;
 
-export type BlockMethodCallback<I, O, R, S, P> = (
-  ctx: BlockContext<I, O, R, S, P>,
+export type BlockEnumerateCallbackAny =
+  BlockEnumerateCallback<object | void, object>;
+
+export type BlockPullCallback<I, R, S, N> = (
+  ctx: BlockPullContext<I, R, S, N>,
 ) => Promise<void>;
 
-export type BlockMethodCallbackAny =
-  BlockMethodCallback<object, object, object | void, object | void, object | void>;
+export type BlockPullCallbackAny =
+  BlockPullCallback<object, object | void, object | void, object | void>;
+
+export type BlockProcessCallback<I, O, R, S, P> = (
+  ctx: BlockProcessContext<I, O, R, S, P>,
+) => Promise<void>;
+
+export type BlockProcessCallbackAny =
+  BlockProcessCallback<object, object | void, object | void, object | void, object | void>;
+
+export type BlockQueueSpec = {
+  is: SchemaIs<object> | null;
+};
 
 export type BlockInputOneSpec = {
   type: 'one';
@@ -80,18 +102,23 @@ export type BlockStateSpec = {
   is: SchemaIs<object> | null;
 };
 
+export type BlockOptionsSpec = {
+  is: SchemaIs<object> | null;
+};
+
 export type BlockParamsSpec = {
   is: SchemaIs<object> | null;
 };
 
 export type BlockSpec = {
+  queue: BlockQueueSpec | null;
   input: BlockInputSpec | null;
   output: BlockOutputSpec | null;
   resource: BlockResourceSpec | null;
   state: BlockStateSpec | null;
+  options: BlockOptionsSpec | null;
   params: BlockParamsSpec | null;
   enumerate: BlockEnumerateCallbackAny | null;
-  init: BlockMethodCallbackAny | null;
-  trigger: BlockMethodCallbackAny | null;
-  process: BlockMethodCallbackAny | null;
+  pull: BlockPullCallbackAny | null;
+  process: BlockProcessCallbackAny | null;
 };
