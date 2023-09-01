@@ -3,6 +3,10 @@ import type { InputSpec } from './input';
 import type { OutputSpec } from './output';
 import type { ResourceRef } from './resource';
 
+export type AssertSpec = {
+  expr: string | object;
+};
+
 export type NodeSpec = {
   block: string;
   input: InputSpec;
@@ -11,6 +15,7 @@ export type NodeSpec = {
   values: object | null;
   options: object | null;
   params: object | null;
+  assert: AssertSpec | null;
 };
 
 export type NodeObject = RuntimeObject<'node', NodeSpec> & { state?: object };

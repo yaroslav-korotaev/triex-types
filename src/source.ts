@@ -1,4 +1,5 @@
 import type { OutletRef } from './output';
+import type { AssertSpec } from './node';
 
 export type ResourceSpecSource = {
   name: string;
@@ -64,6 +65,7 @@ export type PipelineNodeSpecSource = {
   values?: object;
   options?: object;
   params?: object;
+  assert?: AssertSpec;
 };
 
 export type PipelineNodeSpecNormal = {
@@ -75,6 +77,7 @@ export type PipelineNodeSpecNormal = {
   values: object | null;
   options: object | null;
   params: object | null;
+  assert: AssertSpec | null;
 };
 
 export type PipelineSpecSource = {
