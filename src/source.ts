@@ -1,12 +1,6 @@
 import type { OutletRef } from './output';
 import type { AssertSpec } from './node';
 
-export type ResourceSpecSource = {
-  name: string;
-  blueprint: string;
-  commands: object[];
-};
-
 export type PipelineNodeInletSpecSource = {
   [key: string]: string | string[];
 };

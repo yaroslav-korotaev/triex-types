@@ -1,22 +1,43 @@
-import type { Schema } from '../common';
+import type { ViewBlock } from '../view';
 
-export type RemoteBlueprintExecuteRequest = {
-  resource: object | null;
-  command: object;
+export type RemoteBlueprintTransformRequest = {
+  token: string;
+  data: object | null;
+  transform: object | null;
 };
 
-export type RemoteBlueprintExecuteResponse = {
-  resource: object;
+export type RemoteBlueprintTransformResponse = {
+  data: object | null;
+  caption: string | null;
 };
 
-export type RemoteBlueprintSpec = {
+export type RemoteBlueprintViewRequest = {
+  token: string;
+  data: object | null;
+};
+
+export type RemoteBlueprintViewResponse = {
+  blocks: ViewBlock[];
+};
+
+export type RemoteBlueprintSpecPlain = {
   name: string;
-  resource: Schema | null;
-  command: Schema | null;
+  type: 'plain';
 };
+
+export type RemoteBlueprintSpecExternal = {
+  name: string;
+  type: 'external';
+};
+
+export type RemoteBlueprintSpec =
+  | RemoteBlueprintSpecPlain
+  | RemoteBlueprintSpecExternal
+;
 
 export type RemoteBlueprint = {
-  execute(request: RemoteBlueprintExecuteRequest): Promise<RemoteBlueprintExecuteResponse>;
+  transform(request: RemoteBlueprintTransformRequest): Promise<RemoteBlueprintTransformResponse>;
+  view(request: RemoteBlueprintViewRequest): Promise<RemoteBlueprintViewResponse>;
 };
 
 export type RemoteBlueprintRef = { blueprint: string };

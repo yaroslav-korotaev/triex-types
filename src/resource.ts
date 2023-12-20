@@ -2,7 +2,7 @@ import type { RuntimeObject } from './common';
 
 export type ResourceSpec = {
   blueprint: string;
-  value: object;
+  data: object | null;
 };
 
 export type ResourceObject = RuntimeObject<'resource', ResourceSpec>;

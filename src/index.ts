@@ -1,4 +1,5 @@
 export * from './common';
+export * from './view';
 export * from './blueprint';
 export * from './input';
 export * from './output';
