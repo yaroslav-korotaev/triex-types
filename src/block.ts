@@ -18,6 +18,10 @@ export type BlockContextTimer = {
   at(when: Date): void;
 };
 
+export type BlockContextMetrics = {
+  set(key: string, value: number): void;
+};
+
 export type BlockPullContext<I, R, S, N> = {
   signal: AbortSignal;
   timer: BlockContextTimer;
@@ -25,6 +29,7 @@ export type BlockPullContext<I, R, S, N> = {
   resource: R;
   state: BlockContextState<S>;
   options: N;
+  metrics: BlockContextMetrics;
 };
 
 export type BlockPullContextAny =
@@ -37,6 +42,7 @@ export type BlockProcessContext<I, O, R, S, P> = {
   resource: R;
   state: BlockContextState<S>;
   params: P;
+  metrics: BlockContextMetrics;
 };
 
 export type BlockProcessContextAny =

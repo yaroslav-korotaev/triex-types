@@ -17,6 +17,7 @@ export type RemoteBlockPullResponse = {
     next: string | undefined;
     state: object | undefined;
     objects: object[];
+    metrics?: Record<string, number>;
   };
 };
 
@@ -34,6 +35,7 @@ export type RemoteBlockProcessResponse = {
   result?: {
     state: object | undefined;
     output: object[];
+    metrics?: Record<string, number>;
   };
 };
 
