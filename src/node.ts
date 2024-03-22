@@ -7,6 +7,11 @@ export type AssertSpec = {
   expr: string | object;
 };
 
+export type LogSpec = {
+  success?: string | object;
+  error?: string | object;
+};
+
 export type NodeSpec = {
   block: string;
   input: InputSpec;
@@ -16,6 +21,7 @@ export type NodeSpec = {
   options: object | null;
   params: object | null;
   assert: AssertSpec | null;
+  log: LogSpec | null;
 };
 
 export type NodeObject = RuntimeObject<'node', NodeSpec> & { state?: object };
