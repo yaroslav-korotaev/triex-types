@@ -23,6 +23,7 @@ export type RuntimeObjectId<T> = {
 
 export type RuntimeObject<T, S> = RuntimeObjectId<T> & {
   spec: S;
+  labels?: Record<string, string>;
 };
 
 export type Sample = {
